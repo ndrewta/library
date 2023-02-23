@@ -5,7 +5,7 @@ function Book(title, author, pages, read) {
   this.title = title;
   this.author = author;
   this.pages = pages;
-  this.read = read === "read" ? "Yes" : "No";
+  this.read = read === "yes" ? "Yes" : "No";
 }
 
 Book.prototype.pushBookToLibrary = function () {
@@ -24,10 +24,17 @@ function loopLibrary() {
   });
 }
 
+function toggleForm() {
+  const element = document.querySelector(".form");
+  element.classList.toggle("form-toggle");
+}
+
 const bookA = new Book("Harry Pooter", "J Rowling", 290);
 bookA.pushBookToLibrary();
-const bookB = new Book("48 Loo", "Hora Hora", 1290, "read");
+const bookB = new Book("48 Loo", "Hora Hora", 1290, "yes");
 bookB.pushBookToLibrary();
-const bookC = new Book("House of Horrors", "Cowabunga", 392, "read");
+const bookC = new Book("House of Horrors", "Cowabunga", 392, "yes");
 bookC.pushBookToLibrary();
 loopLibrary();
+const toggleBtn = document.querySelector("#toggle-btn");
+toggleBtn.addEventListener("click", toggleForm);
