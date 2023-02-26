@@ -41,15 +41,12 @@ button {
   align-items: center;
   flex-direction: column;
   opacity: 0;
-  transition: 0.5s;
-  top: -200%;
+  transition: 1s;
   left: 35%;
 }
 
 .form-toggle {
-    top: 25%;
-    left: 35%;
-  opacity: 2;
+  opacity: 1;
   transition: 1s;
   background-color: rgba(171, 197, 235);
 }
