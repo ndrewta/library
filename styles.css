@@ -27,7 +27,6 @@ button {
   border: blue solid;
   width: 250px;
   height: 300px;
-  white-space: pre;
   margin-right: 50px;
   margin-bottom: 50px;
 }
@@ -41,14 +40,15 @@ button {
   align-items: center;
   flex-direction: column;
   opacity: 0;
-  transition: 1s;
   left: 35%;
+  pointer-events: none;
 }
 
 .form-toggle {
   opacity: 1;
   transition: 1s;
   background-color: rgba(171, 197, 235);
+  pointer-events: all;
 }
 
 form > div {

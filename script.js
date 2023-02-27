@@ -29,45 +29,63 @@ function Book(title, author, pages, read) {
   this.read = read === "yes" ? "Yes" : "No";
 }
 
-Book.prototype.pushBookToLibrary = function () {
-  library.push(this);
+Book.prototype.toggleReadState = function () {
+  if (this.read === "Yes") {
+    this.read = "No";
+  } else {
+    this.read = "Yes";
+  }
 };
 
-function loopLibrary() {
-  library.forEach((book) => {
-    const cover = document.createElement("div");
-    cover.setAttribute("class", "book-cover");
-    cover.textContent = `Title: ${book.title}\n`;
-    cover.textContent += `Author: ${book.author}\n`;
-    cover.textContent += `Pages: ${book.pages}\n`;
-    cover.textContent += `Read: ${book.read}`;
-    const btn = document.createElement("button");
-    btn.textContent = "Remove";
-    btn.setAttribute("id", "cover-button");
-    cover.appendChild(btn);
-    bookContainer.appendChild(cover);
-  });
+function readText(book) {
+  let toggleText = "";
+  if (book.read === "Yes") {
+    toggleText = "Unread";
+  } else {
+    toggleText = "Read";
+  }
+  return toggleText;
 }
 
-function updateLibrary(book) {
+function createBookCover(book, index) {
   const cover = document.createElement("div");
   cover.setAttribute("class", "book-cover");
-  cover.textContent = `Title: ${book.title}\n`;
-  cover.textContent += `Author: ${book.author}\n`;
-  cover.textContent += `Pages: ${book.pages}\n`;
-  cover.textContent += `Read: ${book.read}`;
-  const btn = document.createElement("button");
-  btn.textContent = "Remove";
-  btn.setAttribute("id", "cover-button");
-  cover.appendChild(btn);
+  cover.setAttribute("data-id", index);
   bookContainer.appendChild(cover);
+
+  const title = document.createElement("p");
+  title.textContent = `Title: ${book.title}`;
+  cover.appendChild(title);
+
+  const author = document.createElement("p");
+  author.textContent = `Author: ${book.author}`;
+  cover.appendChild(author);
+
+  const pages = document.createElement("p");
+  pages.textContent = `Pages: ${book.pages}`;
+  cover.appendChild(pages);
+
+  const read = document.createElement("p");
+  read.textContent = `Read: ${book.read}`;
+  cover.appendChild(read);
+
+  const toggleBtn = document.createElement("button");
+  toggleBtn.textContent = readText(book);
+  toggleBtn.setAttribute("id", "read-toggle-btn");
+  cover.appendChild(toggleBtn);
+
+  const removeBtn = document.createElement("button");
+  removeBtn.textContent = "Remove";
+  removeBtn.setAttribute("id", "cover-remove-btn");
+  cover.appendChild(removeBtn);
 }
 
 function toggleForm() {
   formDiv.classList.toggle("form-toggle");
 
-  formInputElem.forEach((elem) => {
-    if (elem.disabled === true) {
+  formInputElem.forEach((inputElem) => {
+    const elem = inputElem;
+    if (elem.disabled) {
       elem.disabled = false;
     } else {
       elem.disabled = true;
@@ -75,10 +93,21 @@ function toggleForm() {
   });
 }
 
+function updateLibrary() {
+  while (bookContainer.hasChildNodes()) {
+    bookContainer.removeChild(bookContainer.firstChild);
+  }
+
+  library.forEach((book, index) => {
+    createBookCover(book, index);
+  });
+}
+
 function createBook(title, author, pages, read) {
+  let index = library.length;
   const book = new Book(title, author, pages, read);
-  book.pushBookToLibrary();
-  updateLibrary(book);
+  library.push(book);
+  createBookCover(book, index);
   toggleForm();
 }
 
@@ -95,21 +124,43 @@ function submit(e) {
   formElem.reset();
 }
 
-function removeCover(cover) {
-  if (cover.id === "cover-button") {
-    cover.parentElement.remove();
+function removeCover(e) {
+  const index = e.parentElement.getAttribute("data-id");
+  library.splice(index, 1);
+  updateLibrary();
+}
+
+function toggleRead(e) {
+  const index = e.parentElement.getAttribute("data-id");
+  const book = library[index];
+  book.toggleReadState();
+  updateLibrary();
+}
+
+function buttonCheck(e) {
+  if (e.id === "cover-remove-btn") {
+    removeCover(e);
+  }
+
+  if (e.id === "read-toggle-btn") {
+    toggleRead(e);
   }
 }
 
 const bookA = new Book("Harry Pooter", "J Rowling", 290);
-bookA.pushBookToLibrary();
 const bookB = new Book("48 Loo", "Hora Hora", 1290, "yes");
-bookB.pushBookToLibrary();
 const bookC = new Book("House of Horrors", "Cowabunga", 392, "yes");
-bookC.pushBookToLibrary();
-loopLibrary();
+const testBooks = [bookA, bookB, bookC];
+testBooks.forEach((item) => {
+  library.push(item);
+});
+
+updateLibrary();
 
 addBookBtn.addEventListener("click", toggleForm);
 cancelBtn.addEventListener("click", toggleForm);
 formElem.addEventListener("submit", (e) => submit(e));
-document.addEventListener("click", (e) => removeCover(e.target));
+document.addEventListener("click", (e) => buttonCheck(e.target));
+
+// * TO DO
+// * Create new function to update individual covers rather than updating entire library
