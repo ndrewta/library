@@ -1,3 +1,12 @@
+@font-face {
+  font-family: archivo;
+  src: url(../fonts/ArchivoNarrow-Regular.ttf);
+}
+
+:root {
+  font-family: archivo, Arial, Helvetica, sans-serif;
+}
+
 .content-box {
   position: relative;
   width: 80vw;
@@ -7,16 +16,45 @@
 }
 
 .header {
+  display: grid;
+  grid-template-columns: 145px 1fr;
+  align-items: center;
   margin-bottom: 10px;
 }
 
+h1 {
+  margin: 0;
+  margin-left: -145px;
+  grid-column: 2/ 11;
+  justify-self: center;
+  font-size: 50px;
+}
+
 button {
-  width: 75px;
-  height: 30px;
+  border-radius: 5px;
+  border: rgb(247, 169, 169) solid;
+  background-color: rgb(216, 231, 245);
+  height: 50px;
+  width: 125px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+button:hover {
+  background-color: rgb(202, 216, 228);
+  border: rgb(241, 201, 201) solid;
+  color: rgb(123, 127, 133);
+}
+
+button:active {
+  background-color: rgb(152, 172, 226);
+  border: rgb(241, 201, 201) solid;
 }
 
 .book-container {
-  border: orange solid;
+  border-radius: 15px;
+  border: rgb(224, 170, 70) solid;
+  box-shadow: 3px 3px 10px rgb(204, 196, 196);
   display: flex;
   flex-wrap: wrap;
   height: auto;
@@ -24,8 +62,11 @@ button {
 }
 
 .book-cover {
-  border: blue solid;
-  width: 250px;
+  border: rgb(113, 113, 221) solid;
+  border-radius: 15px;
+  box-shadow: 3px 3px 10px rgb(204, 196, 196);
+  background-color: rgb(239, 245, 255);
+  width: 300px;
   height: 300px;
   margin-right: 50px;
   margin-bottom: 50px;
@@ -35,6 +76,7 @@ button {
   position: absolute;
   height: 500px;
   width: 500px;
+  font-size: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -42,15 +84,81 @@ button {
   opacity: 0;
   left: 35%;
   pointer-events: none;
+  border-radius: 20px;
+  background-color: rgb(233, 240, 250);
+  box-shadow: 3px 3px 10px rgb(204, 196, 196);
 }
 
 .form-toggle {
   opacity: 1;
   transition: 1s;
-  background-color: rgba(171, 197, 235);
   pointer-events: all;
 }
 
 form > div {
   padding: 5px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+}
+
+#form-buttons {
+  margin-top: 10px;
+}
+
+#form-buttons button {
+  width: 125px;
+  font-size: 24px;
+  align-self: center;
+  justify-self: center;
+}
+
+.book-cover div {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  margin-top: 10px;
+}
+
+h2 {
+  margin: 0;
+  margin-left: 30px;
+}
+
+p {
+  font-size: 20px;
+  margin: 0;
+}
+
+input {
+  height: 30px;
+  width: 150px;
+  border-radius: 10px;
+  border: rgba(142, 142, 241, 0.2) solid;
+  font-size: 17px;
+  padding: 5px;
+}
+
+input:focus {
+  outline-color: rgb(174, 174, 216);
+}
+
+.book-cover button {
+  width: 100px;
+  height: 50px;
+  align-self: center;
+  justify-self: center;
+  margin-top: 20px;
+}
+
+.book-cover div p {
+  display: inline-block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 180px;
+  overflow: hidden;
+}
+
+#add-book {
+  margin-left: 50px;
 }

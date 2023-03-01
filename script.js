@@ -53,31 +53,54 @@ function createBookCover(book, index) {
   cover.setAttribute("data-id", index);
   bookContainer.appendChild(cover);
 
-  const title = document.createElement("p");
-  title.textContent = `Title: ${book.title}`;
-  cover.appendChild(title);
+  const titleDiv = document.createElement("div");
+  const title = document.createElement("h2");
+  title.textContent = "Title: ";
+  const titleContent = document.createElement("p");
+  titleContent.textContent = `${book.title}`;
+  titleDiv.appendChild(title);
+  titleDiv.appendChild(titleContent);
+  cover.appendChild(titleDiv);
 
-  const author = document.createElement("p");
-  author.textContent = `Author: ${book.author}`;
-  cover.appendChild(author);
+  const authorDiv = document.createElement("div");
+  const author = document.createElement("h2");
+  author.textContent = "Author: ";
+  const authorContent = document.createElement("p");
+  authorContent.textContent = `${book.author}`;
+  authorDiv.appendChild(author);
+  authorDiv.appendChild(authorContent);
+  cover.appendChild(authorDiv);
 
-  const pages = document.createElement("p");
-  pages.textContent = `Pages: ${book.pages}`;
-  cover.appendChild(pages);
+  const pagesDiv = document.createElement("div");
+  const pages = document.createElement("h2");
+  pages.textContent = "Pages: ";
+  const pagesContent = document.createElement("p");
+  pagesContent.textContent = `${book.pages}`;
+  pagesDiv.appendChild(pages);
+  pagesDiv.appendChild(pagesContent);
+  cover.appendChild(pagesDiv);
 
-  const read = document.createElement("p");
-  read.textContent = `Read: ${book.read}`;
-  cover.appendChild(read);
+  const readDiv = document.createElement("div");
+  const read = document.createElement("h2");
+  read.textContent = "Read: ";
+  const readContent = document.createElement("p");
+  readContent.textContent = `${book.read}`;
+  readDiv.appendChild(read);
+  readDiv.appendChild(readContent);
+  cover.appendChild(readDiv);
+
+  const btnDiv = document.createElement("div");
+  cover.appendChild(btnDiv);
 
   const toggleBtn = document.createElement("button");
   toggleBtn.textContent = readText(book);
   toggleBtn.setAttribute("id", "read-toggle-btn");
-  cover.appendChild(toggleBtn);
+  btnDiv.appendChild(toggleBtn);
 
   const removeBtn = document.createElement("button");
   removeBtn.textContent = "Remove";
   removeBtn.setAttribute("id", "cover-remove-btn");
-  cover.appendChild(removeBtn);
+  btnDiv.appendChild(removeBtn);
 }
 
 function toggleForm() {
@@ -108,7 +131,6 @@ function createBook(title, author, pages, read) {
   const book = new Book(title, author, pages, read);
   library.push(book);
   createBookCover(book, index);
-  toggleForm();
 }
 
 function submit(e) {
@@ -121,6 +143,7 @@ function submit(e) {
   const read = data.get("read");
 
   createBook(title, author, pages, read);
+  toggleForm();
   formElem.reset();
 }
 
@@ -131,7 +154,8 @@ function removeCover(e) {
 }
 
 function toggleRead(e) {
-  const index = e.parentElement.getAttribute("data-id");
+  const parentElem = e.parentElement;
+  const index = parentElem.parentElement.getAttribute("data-id");
   const book = library[index];
   book.toggleReadState();
   updateLibrary();
@@ -147,20 +171,7 @@ function buttonCheck(e) {
   }
 }
 
-const bookA = new Book("Harry Pooter", "J Rowling", 290);
-const bookB = new Book("48 Loo", "Hora Hora", 1290, "yes");
-const bookC = new Book("House of Horrors", "Cowabunga", 392, "yes");
-const testBooks = [bookA, bookB, bookC];
-testBooks.forEach((item) => {
-  library.push(item);
-});
-
-updateLibrary();
-
 addBookBtn.addEventListener("click", toggleForm);
 cancelBtn.addEventListener("click", toggleForm);
 formElem.addEventListener("submit", (e) => submit(e));
 document.addEventListener("click", (e) => buttonCheck(e.target));
-
-// * TO DO
-// * Create new function to update individual covers rather than updating entire library
