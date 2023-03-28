@@ -22,29 +22,31 @@ const formInputElem = [
   cancelBtn,
 ];
 
-function Book(title, author, pages, read) {
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.read = read === "yes" ? "Yes" : "No";
-}
-
-Book.prototype.toggleReadState = function () {
-  if (this.read === "Yes") {
-    this.read = "No";
-  } else {
-    this.read = "Yes";
+class Book {
+  constructor(title, author, pages, read) {
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.read = read === "yes" ? "Yes" : "No";
   }
-};
 
-function readText(book) {
-  let toggleText = "";
-  if (book.read === "Yes") {
-    toggleText = "Unread";
-  } else {
-    toggleText = "Read";
+  toggleReadState() {
+    if (this.read === "Yes") {
+      this.read = "No";
+    } else {
+      this.read = "Yes";
+    }
   }
-  return toggleText;
+
+  readText() {
+    let toggleText = "";
+    if (this.read === "Yes") {
+      toggleText = "Unread";
+    } else {
+      toggleText = "Read";
+    }
+    return toggleText;
+  }
 }
 
 function createBookCover(book, index) {
@@ -93,7 +95,7 @@ function createBookCover(book, index) {
   cover.appendChild(btnDiv);
 
   const toggleBtn = document.createElement("button");
-  toggleBtn.textContent = readText(book);
+  toggleBtn.textContent = book.readText();
   toggleBtn.setAttribute("id", "read-toggle-btn");
   btnDiv.appendChild(toggleBtn);
 
